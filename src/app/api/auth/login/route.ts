@@ -13,16 +13,16 @@ export const POST = async (req: Request) => {
 
     if (!email || !password)
       return NextResponse.json(
-        { message: "invalid credentials" },
-        { status: 422 }
+        { success: false, message: "invalid credentials" },
+        { status: 400 }
       );
     const Users = await db.select().from(users).where(eq(users.email, email));
     const user = Users[0] || null;
 
     if (!user) {
       return NextResponse.json(
-        { user: null, message: "the email is not registered" },
-        { status: 409 }
+        { success: false, user: null, message: "the email is not registered" },
+        { status: 201 }
       );
     }
 
@@ -30,8 +30,11 @@ export const POST = async (req: Request) => {
 
     if (!isMatch) {
       return NextResponse.json(
-        { message: "Email or Password is incorrect" },
-        { status: 401 }
+        {
+          success: false,
+          message: "Email or Password is incorrect",
+        },
+        { status: 201 }
       );
     }
 

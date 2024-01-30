@@ -4,9 +4,10 @@ import db from "@/lib/supabase/db";
 import { users } from "@/lib/supabase/schema";
 import { sql } from "drizzle-orm";
 
-export const POST = async (req: Request) => {
+export const GET = async (req: Request) => {
   try {
-    const { id } = await req.json();
+    const url = new URL(req.url);
+    const id = url.searchParams.get("id");
 
     if (!id) {
       return NextResponse.json(

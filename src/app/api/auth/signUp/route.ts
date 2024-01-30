@@ -24,8 +24,11 @@ export const POST = async (req: Request) => {
 
     if (existingUser) {
       return NextResponse.json(
-        { user: null, message: "User with this email already exists" },
-        { status: 409 }
+        {
+          success: false,
+          message: "User with this email already exists",
+        },
+        { status: 201 }
       );
     }
 
@@ -40,7 +43,7 @@ export const POST = async (req: Request) => {
       })
       .returning();
     const user = newUser[0];
-    return NextResponse.json({ user }, { status: 200 });
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.log("error", error);
 
