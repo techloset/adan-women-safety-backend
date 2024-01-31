@@ -10,6 +10,12 @@ export const POST = async (req: Request) => {
     if (!id) {
       return NextResponse.json({ message: "unauthorized" }, { status: 401 });
     }
+
+    const result = await db.query.school.findMany({
+      with: {
+        users: true,
+      },
+    });
     if (!message) {
       return NextResponse.json(
         { message: "invalid credentials" },
